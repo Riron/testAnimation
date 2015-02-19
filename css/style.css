@@ -1,8 +1,7 @@
 /* Empty. Add your own CSS if you like */
-
-.item.item--expanded {
+.card--expanded > .item {
 	margin: 0;
-	position: absolute;
+	position: fixed;
 	top: 0;
 	left: 0;
 	min-height: 100%;
@@ -11,15 +10,68 @@
 	z-index: 10;
 }
 
-.item--expanded.item-content {
+.item-content {
+	position: relative;
+	top: 0;
+	border-top: 72px solid transparent;
+}
+
+.item-avatar {
+	overflow: hidden;
+	height: 72px;
+}
+
+.card--expanded > .item > .item-content {
 	min-height: 100%;
 	height: 100vh;
 }
 
-.item-avatar > .item-image.item--expanded {
+.card--expanded > .item > .item-image {
 	position: relative;
-	left: calc(50% - 49px);
-	max-width: 100px;
-	max-height: 100px;
+	left: calc(50% - 25px);
+	
 	border-radius: 50%;
+}
+
+.container {
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+
+.repeat-container {
+	height: 72px;
+}
+
+/*
+Animations
+*/
+
+.card--animatable > .item {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  -webkit-transition: clip 0.33333s cubic-bezier(0, 0, 0.21, 1);
+  transition: clip 0.33333s cubic-bezier(0, 0, 0.21, 1);
+  z-index: 10;
+}
+.card--animatable > .item > .item-title, .card--animatable > .item > .item-content {
+  -webkit-transition: -webkit-transform 0.33333s cubic-bezier(0, 0, 0.21, 1), opacity 0.33333s cubic-bezier(0, 0, 0.21, 1);
+  transition: transform 0.33333s cubic-bezier(0, 0, 0.21, 1), opacity 0.33333s cubic-bezier(0, 0, 0.21, 1);
+}
+.card--animatable > .item > .item-image {
+  -webkit-transition: -webkit-transform 0.33333s cubic-bezier(0, 0, 0.21, 1), opacity 0.33333s cubic-bezier(0, 0, 0.21, 1);
+  transition: transform 0.33333s cubic-bezier(0, 0, 0.21, 1), opacity 0.33333s cubic-bezier(0, 0, 0.21, 1);
+}
+.card--animatable > .item > .item-collapse-button {
+  -webkit-transition: -webkit-transform 0.33333s cubic-bezier(0, 0, 0.21, 1), opacity 0.33333s cubic-bezier(0, 0, 0.21, 1);
+  transition: transform 0.33333s cubic-bezier(0, 0, 0.21, 1), opacity 0.33333s cubic-bezier(0, 0, 0.21, 1);
+}
+
+.card--collapsing > .item {
+  -webkit-transition: clip 0.32666s cubic-bezier(0, 0, 0.21, 1);
+  transition: clip 0.32666s cubic-bezier(0, 0, 0.21, 1);
 }

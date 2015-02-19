@@ -1,15 +1,17 @@
 <ion-view view-title="Playlists">
   <ion-content>
 	<div class="list">
-		<div ng-repeat="playlist in playlists">
-		<a class="item item-avatar" oc-click="#/app/playlists/{{playlist.id}}" oc-material>
-			<img src="http://lorempicsum.com/futurama/50/50/5" class="item-image">
-			<h2 class="item-title">Data {{playlist.id}}</h2>
-			<p class="item-subtitle">Back off, man. I'm a scientist.</p>
-			<div class="item-content">
-				<p>Mon contenu ici...</p>
-			</div>
-		</a>
+		<div class="repeat-container" ng-repeat="playlist in playlists">
+		<div class="container" oc-material>
+			<a class="item item-avatar" oc-click="#/app/playlists/{{playlist.id}}">
+				<img src="http://lorempicsum.com/futurama/50/50/5" class="item-image">
+				<h2 class="item-title">Data {{playlist.id}}</h2>
+				<p class="item-subtitle">Back off, man. I'm a scientist.</p>
+				<div class="item-content">
+					<p>Mon contenu ici...</p>
+				</div>
+			</a>
+		</div>
 		</div>
 	</div>
   </ion-content>
