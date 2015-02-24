@@ -42,11 +42,18 @@ function Card(el) {
 
 	this.onCollapseTransitionEnd_ = this.onCollapseTransitionEnd_.bind(this);
 	this.onExpandTransitionEnd_ = this.onExpandTransitionEnd_.bind(this);
+
+	this.scrollTop = 0;
+	this.chromeOffset = 0;
 }
 
 Card.prototype.expand = function() {
 	this.boxPositionOnExpand_ = this.elements_.root.getBoundingClientRect();
 	this.expanded_ = true;
+
+	history.pushState({}, "test", "bar.html");
+	// IONIC SPECIFIC
+	this.chromeOffset = document.getElementsByClassName('scroll-content')[0].scrollTop
 
 	// Read the viewport position of the card and elements.
     this.collectProperties_(this.collapsedPositions_);
@@ -57,12 +64,8 @@ Card.prototype.expand = function() {
 
     // CHROME FIX: When we scroll, the content musnt be sticked on top=0
 	// https://code.google.com/p/chromium/issues/detail?id=20574 
-	if(this.expanded_) {
-		var scrollTop = document.getElementsByClassName('scroll-content')[0].scrollTop;
-		this.elements_['container'].style.top = scrollTop + 'px';
-	}
-	else {
-		this.elements_['container'].style.top = 0;
+	if(this.expanded_ && navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+		this.elements_['container'].style.top = this.chromeOffset + 'px';
 	}
 
     // Read them in their expanded positions.
@@ -88,6 +91,15 @@ Card.prototype.expand = function() {
 }
 
 Card.prototype.collapse = function() {
+	// IONIC SPECIFIC
+	document.getElementsByClassName('scroll')[0].style.overflow = 'initial';
+	document.getElementsByClassName('scroll-content')[0].scrollTop = this.chromeOffset;
+	// CHROME FIX
+    if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+    	console.log(this.chromeOffset)
+   		this.elements_['container'].style.top = this.chromeOffset + 'px';
+   	}
+
 	this.applyClipRect_();
 
     this.elements_.container.classList.remove('card__container--scrollable');
@@ -96,9 +108,10 @@ Card.prototype.collapse = function() {
 
 	this.setElementTransformsToStartAndClipToCollapsed_();
 
-
 	this.elements_.content.addEventListener('transitionend', this.onCollapseTransitionEnd_);
     this.elements_.content.addEventListener('webkittransitionend', this.onCollapseTransitionEnd_);
+
+    history.pushState({}, "home", "../");
 }
 
 Card.prototype.collectProperties_ =  function(target) {
@@ -173,8 +186,12 @@ Card.prototype.setElementTransformsToStartAndClipToCollapsed_ = function() {
 	var clipTop = this.collapsedPositions_.container.top + topDifference;
 	var clipBottom = this.collapsedPositions_.container.bottom + topDifference;
 
-	// Ionic Fix - .has-header introduce a top: 44px property that reflects in here 
-	var top = clipTop - 44;
+	// CHROME FIX
+	var top = clipTop;
+	if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+		top = clipTop - 44;
+	}
+	
 	this.elements_.container.style.clip = 'rect(' +
 		top + 'px, ' +
 		clipRight + 'px, ' +
@@ -196,8 +213,12 @@ Card.prototype.setElementTransformsToZeroAndClipToExpanded_ = function() {
 		this.setElementTransformAndOpacity_(this.elements_[part], 'translate(0,0) scale(1)', this.expandedPositions_[part].opacity);
 	}
 
-	// Ionic Fix - .has-header introduce a top: 44px property that reflects in here 
-	var top = this.expandedPositions_.container.top - 44;
+	// CHROME FIX
+	var top = this.expandedPositions_.container.top;
+	if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+		top = this.expandedPositions_.container.top - 44;
+	}
+
 	this.elements_.container.style.clip = 'rect(' +
 		top + 'px, ' +
 		this.expandedPositions_.container.right + 'px, ' +
@@ -224,13 +245,19 @@ Card.prototype.setElementTransformAndOpacity_ = function(element, transform, opa
 
 Card.prototype.onExpandTransitionEnd_ = function(evt) {
 	if (typeof evt !== 'undefined' && evt.target !== this.elements_.container)
-		return;
+		return; 
 
 	this.elements_.container.classList.add('card__container--scrollable');
 	this.elements_.root.classList.remove('card--animatable');
 
 	this.resetElementTransformsAndOpacity_();
 	this.resetElementClip_();
+
+	// IONIC SPECIFIC
+	document.getElementsByClassName('scroll')[0].style.overflow = 'hidden';
+	// CHROME FIX
+    if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
+   		this.elements_['container'].style.top = 0;
 
 	this.elements_.container.removeEventListener('transitionend', this.onExpandTransitionEnd_);
 	this.elements_.container.removeEventListener('webkittransitionend', this.onExpandTransitionEnd_);
@@ -251,7 +278,8 @@ Card.prototype.onCollapseTransitionEnd_ = function(evt) {
     this.resetElementClip_();
 
     // CHROME FIX
-    this.elements_['container'].style.top = 0;
+    if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
+   		this.elements_['container'].style.top = 0;
 
     this.elements_.content.removeEventListener('transitionend', this.onCollapseTransitionEnd_);
     this.elements_.content.removeEventListener('webkittransitionend', this.onCollapseTransitionEnd_);

@@ -8,12 +8,20 @@
 	height: 100vh;
 	width: 100%;
 	z-index: 10;
+
+	overflow: hidden;
 }
 
 .item-content {
 	position: relative;
 	top: 0;
-	border-top: 72px solid transparent;
+	
+}
+
+.item-content .content-infos {
+	background: #4A90E2;
+	height: 72px;
+	padding: 16px;
 }
 
 .item-avatar {
@@ -26,11 +34,44 @@
 	height: 100vh;
 }
 
-.card--expanded > .item > .item-image {
+.card--expanded > .item > .item-subtitle {
+	display: none;
+}
+
+.card--expanded > .item > .item-title {
+	display: none;
+}
+
+.content-picture {
+	transform: translateX(0);
 	position: relative;
-	left: calc(50% - 25px);
-	
+	width: 100%;
+}
+.card--expanded > .item > .item-content > .content-picture .img{
+	transform: translateX(50%) translateY(50%);
+	margin-right: 100px;
+	-webkit-transition: -webkit-transform 0.33333s cubic-bezier(0, 0, 0.21, 1);
+	transition: transform 0.33333s cubic-bezier(0, 0, 0.21, 1);
+}
+
+.content-picture img {
+	max-height: none;
+	max-width: none;
+	width: auto;
+	height: auto;
 	border-radius: 50%;
+}
+
+.content-picture {
+	height: 200px;
+	background-image: url(../img/bg2.jpg);
+}
+
+.card--expanded > .item > .item-image {
+	/*left: calc(50% - 25px);
+	margin: 0 auto;
+	border-radius: 50%;*/
+	opacity: 0;
 }
 
 .container {
@@ -41,6 +82,33 @@
 
 .repeat-container {
 	height: 72px;
+}
+
+.item-title {
+	padding-top: 20px;
+}
+.item-title, .item-subtitle {
+	padding-left: 72px;
+}
+.item > p.item-subtitle {
+	margin-bottom: 10px;
+}
+
+.content-infos h2 {
+  font-family: 'Roboto',sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  font-size: 20px;
+  color: #FFF;
+  line-height: 1.3;
+}
+.content-infos p {
+  color: #FFF;
+}
+
+/* Correctifs ionic => Modifier la structure*/
+.item-avatar, .item-avatar .item-content {
+	padding: 0;
 }
 
 /*
@@ -74,4 +142,38 @@ Animations
 .card--collapsing > .item {
   -webkit-transition: clip 0.32666s cubic-bezier(0, 0, 0.21, 1);
   transition: clip 0.32666s cubic-bezier(0, 0, 0.21, 1);
+}
+
+/*
+Sticky material button
+*/
+.button--round { 
+  -webkit-transition: -webkit-transform 0.3333s cubic-bezier(0, 0, 0.21, 1);
+  transition: transform 0.3333s cubic-bezier(0, 0, 0.21, 1);
+
+  cursor: pointer;
+
+  width: 48px;
+  height: 48px;
+  
+  background: #4CBB47;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.16),0px 2px 5px 0px rgba(0, 0, 0, 0.23);
+  
+  border-radius: 50%;
+  
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  
+  i {
+    font-size: 1rem;
+    line-height: 220%;
+    vertical-align: middle;
+  }
+}
+
+.button--sticky {
+  position: absolute;
+  top: 175px;
+  right: 10%;
 }
