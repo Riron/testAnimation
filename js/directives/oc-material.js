@@ -64,9 +64,9 @@ Card.prototype.expand = function() {
 
     // CHROME FIX: When we scroll, the content musnt be sticked on top=0
 	// https://code.google.com/p/chromium/issues/detail?id=20574 
-	if(this.expanded_ && navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-		this.elements_['container'].style.top = this.chromeOffset + 'px';
-	}
+	//if(this.expanded_ && navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+	//	this.elements_['container'].style.top = this.chromeOffset + 'px';
+	//}
 
     // Read them in their expanded positions.
     this.collectProperties_(this.expandedPositions_);
@@ -92,13 +92,13 @@ Card.prototype.expand = function() {
 
 Card.prototype.collapse = function() {
 	// IONIC SPECIFIC
-	document.getElementsByClassName('scroll')[0].style.overflow = 'initial';
-	document.getElementsByClassName('scroll-content')[0].scrollTop = this.chromeOffset;
+	//document.getElementsByClassName('scroll')[0].style.overflow = 'initial';
+	//document.getElementsByClassName('scroll-content')[0].scrollTop = this.chromeOffset;
 	// CHROME FIX
-    if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
-    	console.log(this.chromeOffset)
-   		this.elements_['container'].style.top = this.chromeOffset + 'px';
-   	}
+    //if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1) {
+    //	console.log(this.chromeOffset)
+   	//	this.elements_['container'].style.top = this.chromeOffset + 'px';
+   	//}
 
 	this.applyClipRect_();
 
@@ -254,10 +254,10 @@ Card.prototype.onExpandTransitionEnd_ = function(evt) {
 	this.resetElementClip_();
 
 	// IONIC SPECIFIC
-	document.getElementsByClassName('scroll')[0].style.overflow = 'hidden';
+	//document.getElementsByClassName('scroll')[0].style.overflow = 'hidden';
 	// CHROME FIX
-    if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
-   		this.elements_['container'].style.top = 0;
+    //if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
+   	//	this.elements_['container'].style.top = 0;
 
 	this.elements_.container.removeEventListener('transitionend', this.onExpandTransitionEnd_);
 	this.elements_.container.removeEventListener('webkittransitionend', this.onExpandTransitionEnd_);
@@ -278,8 +278,8 @@ Card.prototype.onCollapseTransitionEnd_ = function(evt) {
     this.resetElementClip_();
 
     // CHROME FIX
-    if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
-   		this.elements_['container'].style.top = 0;
+    //if(navigator.userAgent.toLowerCase().indexOf('chrome') > -1)
+   	//	this.elements_['container'].style.top = 0;
 
     this.elements_.content.removeEventListener('transitionend', this.onCollapseTransitionEnd_);
     this.elements_.content.removeEventListener('webkittransitionend', this.onCollapseTransitionEnd_);
